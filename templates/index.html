@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Performance Monitor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>API Performance Monitor</h1>
+        <p>Track API response times, status codes, and errors.</p>
+
+        <div class="stats-box">
+            <div class="card">
+                <h3>Total Checks</h3>
+                <p>{{ stats.total_checks }}</p>
+            </div>
+            <div class="card">
+                <h3>Success Count</h3>
+                <p>{{ stats.success_count }}</p>
+            </div>
+            <div class="card">
+                <h3>Average Response Time</h3>
+                <p>{{ stats.avg_response }} ms</p>
+            </div>
+        </div>
+
+        <form action="/check" method="POST" class="form-box">
+            <input type="text" name="url" placeholder="Enter API URL" required>
+            <button type="submit">Check API</button>
+        </form>
+
+        <h2>API Logs</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>URL</th>
+                    <th>Status Code</th>
+                    <th>Response Time (ms)</th>
+                    <th>Success</th>
+                    <th>Error</th>
+                    <th>Checked At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                <tr>
+                    <td>{{ log[0] }}</td>
+                    <td>{{ log[1] }}</td>
+                    <td>{{ log[2] }}</td>
+                    <td>{{ log[3] }}</td>
+                    <td>{{ "Yes" if log[4] else "No" }}</td>
+                    <td>{{ log[5] }}</td>
+                    <td>{{ log[6] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
